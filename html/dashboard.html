@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="./html/index.css">
+    <link rel="stylesheet" href="./html/dashboard.css">
+</head>
+<body>
+    <div class="title">
+        <h3>IoTeam</h3>
+        <b id="">Plants</b>
+        <!-- <b id="aboutBut"">Add a Plant</b> -->
+        <button id="webBut" class="but">Back to website <b>→</b></button>
+    </div>
+
+    <div class="container">
+        <!-- <div class="top">
+            <b></b>
+
+            <button class="add">Add a Plant</button>
+        </div> -->
+
+        <div class="main">
+
+            <form id="addDiv" style="display: none; height: 190px;">
+
+                <!-- <form id="submitPlant"> -->
+                    <div class="twoCol">
+                        <input class="text" required type="text" id="name" placeholder="Name">
+                        <select required id="type">
+                            <option value="">Plant Type</option>
+                            <option value="">----------</option>
+                            <option value="Basil">Basil</option>
+                            <option value="Mint">Mint</option>
+                            <option value="Mint">Thyme</option>
+                            <option value="Tulip">Tulip</option>
+                            <option value="Rose">Rose</option>
+                        </select>
+                    </div>
+                    <div class="twoCol">
+                        <input class="text" required type="text" id="devideId" placeholder="Device ID">
+                        <input class="text" required type="text" id="devicePass" placeholder="Device Password">
+                    </div>
+                <!-- </form> -->
+
+                <div class="twoCol buttons">
+                    <input type="submit" value="Add">
+                    <button class="close" id="close">Close</button>
+                </div>
+
+                <b id="addError" class="bad"></b>
+
+            </form>
+
+            <div class="threeCol">
+
+
+                <div class="addPlant">
+                    <button class="add" id="addP">+</button>
+                    <b>Add a Plant</b>
+                </div>
+    
+                <!-- <div class="plant">
+                    
+                </div> -->
+    
+                <!-- <div class="plant">
+                    <img src="https://thumbs.dreamstime.com/b/pot-fresh-basil-plant-isolated-white-background-pot-fresh-basil-plant-isolated-white-background-182461940.jpg">
+    
+                    <b>Name (type)</b>
+                    <a class="med">Needs some water</a>
+    
+                    <div class="twoCol">
+                        <button class="details">Details</button>
+                        <button class="delete">Delete</button>
+                    </div>
+    
+                </div> -->
+
+            </div>
+
+            
+
+
+        </div>
+    </div>
+
+<script src="./html/dashboard.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoTeam</title>
+    <link rel="stylesheet" href="./html/index.css">
+</head>
+<body>
+    <div class="title">
+        <h3>IoTeam</h3>
+        <b id="homeBut">Home</b>
+        <b id="aboutBut"">About Us</b>
+        <button id="loginBut" class="but">Dashboard <b>→</b></button>
+    </div>
+
+    <div class="container">
+        <!-- <h2>Soil ...</h2> -->
+
+        <div id="login" style="display: none;">
+
+            <form action="" id="loginForm">
+                <div class="form__group field">
+                    <input required type="input" class="form__field save" name="username" id='username' autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+                    <label for="username" class="form__label">Username</label>
+                </div>
+                <div class="form__group field">
+                    <input required type="input" class="form__field save" name="password" id='password' autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+                    <label for="password" class="form__label">Password</label>
+                </div>
+
+                <input type="submit" value="Login" class="but" id="lb"></input>
+                
+                <b id="lError"></b>
+            </form>
+            
+        </div>
+
+        <div id="home">
+
+            <div class="product">
+                <img src="https://www.gardeningknowhow.com/wp-content/uploads/2021/05/sick-gardenia-plant.jpg"/>
+                
+                <b>Introducing ...</b>
+                
+                <p>The smart plant health device that will water your plants for you and tell you if they are in the right conditons. </p>
+
+            </div>
+
+            <div class="info">
+                <img src="https://www.gardeningknowhow.com/wp-content/uploads/2021/05/sick-gardenia-plant.jpg"/>
+                <p>Are you tired of your plants looking like this? With ..., they never will again! ... will water your plants when they are getting dry all by itself.</p>
+
+            </div>
+
+            <div class="info reverse">
+                <p>Your plant needs light, and it needs certain colours. You plant might not be thriving in the way it should be, but ... will tell you exactly what your plant needs and if it is getting it.</p>
+
+                <img src="https://i.natgeofe.com/n/1a0ee559-2747-462f-9038-a9c273fee709/1399_square.jpg"/>
+
+            </div>
+
+            <!-- <div class="container">
+                <svg viewBox="0 0 500 500" preserveAspectRatio="xMinYMin meet">
+                  <path d="M0,100 C150,200 350,0 500,100 L500,00 L0,0 Z" style="stroke: none; fill:red;"></path>
+                </svg>
+              </div> -->
+
+
+        </div>
+
+        <div id="about" style="display: none;">
+            about
+        </div>
+
+    </div>
+</body>
+<script src="./html/index.js"></script>
+</html>
