@@ -132,7 +132,7 @@ app.put('/put/plant/*', function (req,res) {
 })
 
 
-app.listen(443)
+app.listen(8080)
 
 function writeJson(input = data,file = "data") {
     fs.writeFile(`./data/${file}.json`, JSON.stringify(input), function writeJSON(err) {
