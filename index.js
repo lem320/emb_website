@@ -120,15 +120,18 @@ app.delete('/get/plant/*/*', function (req,res) {
 })
 
 app.put('/put/plant/*', function (req,res) {
-    const device_id = req.url.split("/")[3]
-    const device_password = req.body.authorization
+    // const device_id = req.url.split("/")[3]
+    // const device_password = req.body.authorization
 
 
 
-    const names = data[username].plants.map(el => el.name)
-    const index = names.indexOf(name)
+    // const names = data[username].plants.map(el => el.name)
+    // const index = names.indexOf(name)
+    
+    console.log(req.body)
+    console.log(req.headers)
 
-    if (jwt.verify(req.headers.token,secret).data == username) res.status(200).json(data[username].plants[index])
+    // if (jwt.verify(req.headers.token,secret).data == username) res.status(200).json(data[username].plants[index])
 })
 
 
