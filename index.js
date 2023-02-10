@@ -131,6 +131,8 @@ app.put('/put/plant/*', function (req,res) {
     console.log(req.body)
     console.log(req.headers)
 
+    res.status(200).json({message: "Received"})
+
     // if (jwt.verify(req.headers.token,secret).data == username) res.status(200).json(data[username].plants[index])
 })
 
