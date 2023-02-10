@@ -27,7 +27,7 @@ document.querySelector("#addDiv").addEventListener("submit", (e) => {
 
     console.log(plant)
 
-    fetch('/add/plant',{
+    fetch(`/add/plant/${getCookie("username")}`,{
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'

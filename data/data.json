@@ -86,6 +86,12 @@
         "type": "Basil",
         "deviceId": "ID",
         "devicePass": "PASSWORD"
+      },
+      {
+        "name": "test",
+        "type": "Basil",
+        "deviceId": "123",
+        "devicePass": "123"
       }
     ]
   }
