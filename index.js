@@ -183,6 +183,8 @@ app.put('/put/plant/*', function (req,res) {
     const device_password = req.body.authorization
     const json_data = req.body
 
+    console.log(json_data)
+
     // JSON DATA FORMAT
     // {
     //     temperature: 24.16087158203124,

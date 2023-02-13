@@ -171,7 +171,7 @@ async function addPlantDIV(plant) {
         })
     })
 
-    div.querySelector(".delete").addEventListener("click", (e) => {
+    buttons.querySelector(".delete").addEventListener("click", (e) => {
         console.log(e.target.innerHTML)
         if (e.target.innerHTML == "Close") {
             console.log("close")
