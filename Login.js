@@ -17,7 +17,7 @@ async function connect_aws() {
 
 // Connecting to aws with specific database
 async function connect_db(database_name) {
-    
+
     var con = mysql.createConnection({
         host: "plant-db.cxiwggxylha8.us-east-1.rds.amazonaws.com",
         port: 3306,
@@ -203,7 +203,7 @@ async function plant_info(database_name, pi_id, jsondata) {
 
     var list = Object.entries(jsondata);
     var light = Object.entries(list[4][1]);
-    var sql = `INSERT INTO ${pi_id} (temperature, humidity, moisture, lastmoistured, light450, light500, light550, light570, light600, light650, time) VALUES (${list[0][1]}, ${list[1][1]}, ${list[2][1]}, ${list[3][1]}, ${light[0][1]}, ${light[1][1]}, ${light[2][1]}, ${light[3][1]}, ${light[4][1]}, ${light[5][1]}, CURRENT_TIMESTAMP())`;
+    var sql = `INSERT INTO ${pi_id} (temperature, humidity, lastmoistured, moisture, light450, light500, light550, light570, light600, light650, time) VALUES (${list[0][1]}, ${list[1][1]}, ${list[2][1]}, ${list[3][1]}, ${light[0][1]}, ${light[1][1]}, ${light[2][1]}, ${light[3][1]}, ${light[4][1]}, ${light[5][1]}, CURRENT_TIMESTAMP())`;
 
     await insert_table(con, sql)
 };
@@ -372,7 +372,7 @@ async function delete_items(database_name, table_name, condition) {
 
     var sql = `DELETE FROM ${table_name} WHERE ${condition}`;
 
-    await delete_anything(con, sql);    
+    await delete_anything(con, sql);
 }
 //delete_table("testusername", "yo")
 //delete_items("testusername", "yo", "moisture = 0")
