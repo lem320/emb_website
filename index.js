@@ -3,7 +3,7 @@ const data = require('./data/data.json')
 const jwt = require('jsonwebtoken');
 const cookieParser = require("cookie-parser")
 const fs = require('fs')
-const{process} = require('./processing.js')
+const { process } = require('./processing.js')
 
 const {
     create_login_db,
@@ -32,46 +32,46 @@ app.use(cookieParser())
 const secret = "ioteam"
 
 app.get('/html/index.css', function (req, res) {
-    res.sendFile('html/index.css', {root: __dirname })
+    res.sendFile('html/index.css', { root: __dirname })
 })
 app.get('/html/dashboard.css', function (req, res) {
-    res.sendFile('html/dashboard.css', {root: __dirname })
+    res.sendFile('html/dashboard.css', { root: __dirname })
 })
 
 app.get('/html/index.js', function (req, res) {
-    res.sendFile('html/index.js', {root: __dirname })
+    res.sendFile('html/index.js', { root: __dirname })
 })
 app.get('/html/dashboard.js', function (req, res) {
-    res.sendFile('html/dashboard.js', {root: __dirname })
+    res.sendFile('html/dashboard.js', { root: __dirname })
 })
 app.get('/images/Basil.png', function (req, res) {
-    res.sendFile('images/Basil.png', {root: __dirname })
+    res.sendFile('images/Basil.png', { root: __dirname })
 })
 app.get('/images/Mint.png', function (req, res) {
-    res.sendFile('images/Mint.png', {root: __dirname })
+    res.sendFile('images/Mint.png', { root: __dirname })
 })
 app.get('/images/leaf.jpeg', function (req, res) {
-    res.sendFile('images/leaf.jpeg', {root: __dirname })
+    res.sendFile('images/leaf.jpeg', { root: __dirname })
 })
 app.get('/images/temp.png', function (req, res) {
-    res.sendFile('images/temp.png', {root: __dirname })
+    res.sendFile('images/temp.png', { root: __dirname })
 })
 app.get('/images/humidity.png', function (req, res) {
-    res.sendFile('images/humidity.png', {root: __dirname })
+    res.sendFile('images/humidity.png', { root: __dirname })
 })
 app.get('/images/light.png', function (req, res) {
-    res.sendFile('images/light.png', {root: __dirname })
+    res.sendFile('images/light.png', { root: __dirname })
 })
 app.get('/images/moist.png', function (req, res) {
-    res.sendFile('images/moist.png', {root: __dirname })
+    res.sendFile('images/moist.png', { root: __dirname })
 })
 app.get('/images/logo.jpeg', function (req, res) {
-    res.sendFile('images/logo.jpeg', {root: __dirname })
+    res.sendFile('images/logo.jpeg', { root: __dirname })
 })
 
 function verify(token) {
     try {
-        jwt.verify(token,secret)
+        jwt.verify(token, secret)
         return true
     } catch (e) {
         return false
@@ -82,14 +82,14 @@ function verify(token) {
 app.get('/dashboard', function (req, res) {
     const token = req.cookies.token
     if (verify(token)) {
-        res.sendFile('html/dashboard.html', {root: __dirname })
+        res.sendFile('html/dashboard.html', { root: __dirname })
     } else {
         res.redirect('/')
     }
 })
 
 app.get('/', function (req, res) {
-    res.sendFile('html/index.html', {root: __dirname })
+    res.sendFile('html/index.html', { root: __dirname })
 })
 
 // CHECK LOGIN IS VALID AND RETURN A TOKEN (PROBABLY BEST WE DO THIS TOGETHER)
@@ -135,7 +135,7 @@ app.post('/login', async function (req, res) {
         res.status(401).json({ message: 'Username is not registered' })
         return
     }
-    
+
     if (usernames.includes(details.username) && (passwords[usernames.indexOf(details.username)] == details.password)) {
         const token = jwt.sign({
             data: details.username
@@ -149,7 +149,7 @@ app.post('/login', async function (req, res) {
 })
 
 // ADD A PLANT TO A USER'S DB
-app.put('/add/plant/*', async function (req,res) {
+app.put('/add/plant/*', async function (req, res) {
     const username = req.url.split("/")[3]
 
     // // TEMP CODE
@@ -182,7 +182,7 @@ app.put('/add/plant/*', async function (req,res) {
         if (names.includes(name)) {
             res.status(400).json({ message: "Name already exists" })
         } else {
-            set_plant(req.body.plant.id, req.body.plant.pass, name, req.body.plant.planttype,username) // 
+            set_plant(req.body.plant.id, req.body.plant.pass, name, req.body.plant.planttype, username) // 
             create_plant_table(username, req.body.plant.id)
             res.status(200).json({ message: "Plant added" })
 
@@ -193,7 +193,7 @@ app.put('/add/plant/*', async function (req,res) {
 })
 
 // GET ALL PLANTS IN USER'S DB
-app.get('/get/plants/*',async function (req,res) {
+app.get('/get/plants/*', async function (req, res) {
     const username = req.url.split("/")[3]
 
     // // TEMP CODE (COMMENT OUT WHEN DONE)
@@ -210,7 +210,7 @@ app.get('/get/plants/*',async function (req,res) {
     // if (jwt.verify(req.headers.token,secret).data == username) res.status(200).json(plants_data)
 
     const raw_names = await get_plants(username)
-    console.log("123",raw_names)
+    console.log("123", raw_names)
     const name = `Tables_in_${username}`;
     const ids = raw_names.map(el => el[name])
 
@@ -218,7 +218,7 @@ app.get('/get/plants/*',async function (req,res) {
     const pi_ids = pis.map(el => el.id)
 
     let arr = []
-    for (let i=0; i<pi_ids.length; i++) {
+    for (let i = 0; i < pi_ids.length; i++) {
         if (ids.includes(pi_ids[i])) arr.push(pis[i])
     }
 
@@ -227,13 +227,13 @@ app.get('/get/plants/*',async function (req,res) {
 
 
 // GET LATEST DATA FOR PLANT
-app.get('/get/plant/*/*',async function (req,res) {
+app.get('/get/plant/*/*', async function (req, res) {
     const username = req.url.split("/")[3]
     const plant_id = req.url.split("/")[4]
-    if (jwt.verify(req.headers.token,secret).data == username) {
-        
+    if (jwt.verify(req.headers.token, secret).data == username) {
+
         const plant_data_all = await recent_data(username, plant_id)
-        const plant_data = plant_data_all[plant_data_all.length-1]
+        const plant_data = plant_data_all[plant_data_all.length - 1]
 
         if (plant_data !== undefined) {
             const pi_data = await plant_type(plant_id)
@@ -257,18 +257,18 @@ app.get('/get/plant/*/*',async function (req,res) {
             data.processed = process(data)
             res.status(200).json(data)
         } else {
-            res.status(200).json({message: "No Data"})
+            res.status(200).json({ message: "No Data" })
         }
     } else {
-        res.status(401).json({message: "Unauthorized"})
+        res.status(401).json({ message: "Unauthorized" })
     }
 })
 
 
 // DELETE PLANT FROM USER'S DB
-app.delete('/get/plant/*/*',async function (req,res) {
+app.delete('/get/plant/*/*', async function (req, res) {
     const username = req.url.split("/")[3]
-    if (jwt.verify(req.headers.token,secret).data == username) {
+    if (jwt.verify(req.headers.token, secret).data == username) {
         const plant_id = req.url.split("/")[4]
 
         const pis = await get_pis()
@@ -280,16 +280,16 @@ app.delete('/get/plant/*/*',async function (req,res) {
         await set_plant(plant_id, plant_pass, 'NULL', 'NULL', 'NULL') // 
         // if (jwt.verify(req.headers.token,secret).data == username) res.status(200).json({message: "Deleted successfully",plants: plants_data})
 
-        res.status(200).json({message: "Deleted successfully"})
+        res.status(200).json({ message: "Deleted successfully" })
     } else {
-        res.status(401).json({message: "Not Authorized"})
+        res.status(401).json({ message: "Not Authorized" })
     }
 
 })
 
 
 // STORE PI DATA TO DB
-app.put('/put/plant/*',async function (req,res) {
+app.put('/put/plant/*', async function (req, res) {
 
     const device_id = req.url.split("/")[3]
     const device_password = req.headers.authorization
@@ -315,7 +315,7 @@ console.log(8080)
 
 app.listen(8080)
 
-function writeJson(input = data,file = "data") {
+function writeJson(input = data, file = "data") {
     fs.writeFile(`./data/${file}.json`, JSON.stringify(input), function writeJSON(err) {
         if (err) return console.log(err);
     });
