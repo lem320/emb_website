@@ -258,10 +258,10 @@ app.get('/get/plant/*/*',async function (req,res) {
 
     const data = {
         type: pi_data[0].planttype,
-        temperature: plant_data[0].temperature,
-        humidity: plant_data[0].humidity,
-        last_moistured: plant_data[0].lastmoistured,
-        moisture: plant_data[0].moisture,
+        temperature: plant_data.temperature,
+        humidity: plant_data.humidity,
+        last_moistured: plant_data.lastmoistured,
+        moisture: plant_data.moisture,
         light: {
             '450': plant_data.light450,
             '500': plant_data.light500,
