@@ -284,51 +284,28 @@ app.get('/get/plant/*/*',async function (req,res) {
 
 // DELETE PLANT FROM USER'S DB
 app.delete('/get/plant/*/*',async function (req,res) {
-    const username = req.url.split("/")[3]
-    const plant_id = req.url.split("/")[4]
+    if (jwt.verify(req.headers.token,secret).data == username) {
 
-    await delete_table(username, plant_id);
-    await set_pi_plant(req.body.plant.deviceId, req.body.plant.devicePass, null, null, null) // 
-    // if (jwt.verify(req.headers.token,secret).data == username) res.status(200).json({message: "Deleted successfully",plants: plants_data})
+        const username = req.url.split("/")[3]
+        const plant_id = req.url.split("/")[4]
+
+        await delete_table(username, plant_id);
+        await set_pi_plant(req.body.plant.deviceId, req.body.plant.devicePass, null, null, null) // 
+        // if (jwt.verify(req.headers.token,secret).data == username) res.status(200).json({message: "Deleted successfully",plants: plants_data})
+
+        res.status(200).json({message: "Deleted successfully"})
+    } else {
+        res.status(401).json({message: "Not Authorizedy"})
+    }
 
 })
 
 
 // STORE PI DATA TO DB
 app.put('/put/plant/*',async function (req,res) {
-    // const device_id = req.url.split("/")[3]
-    // const device_password = req.body.authorization
-    // const json_data = req.body
 
-
-    // // JSON DATA FORMAT
-    // // {
-    // //     temperature: 24.16087158203124,
-    // //     humidity: 16.75,
-    // //     moisture: 0,
-    // //     light: { '450': 30, '500': 45, '550': 60, '570': 45, '600': 50, '650': 45 }
-    // // }
-
-
-    // // STORE THE DATA ON THE DB
-
-
-
-
-
-    // res.status(200).json({message: "Received"})
-
-    // const username = "luke" //need this to access the plant database, don't know where from
     const device_id = req.url.split("/")[3]
     const device_password = req.headers.authorization
-
-    // const json_data = { // change to data from pi
-    //     temperature: 24.16087158203124,
-    //     humidity: 16.75,
-    //     moisture: 0,
-    //     lastmoistured: 123,
-    //     light: { '450': 30, '500': 45, '550': 60, '570': 45, '600': 50, '650': 45 }
-    // }
 
     const pi_data = await get_pi();
     const ids = pi_data.map(el => el.id);

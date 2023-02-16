@@ -1,7 +1,7 @@
 var mysql = require('mysql');
 
 class Database {
-    constructor(connection, database_name) {
+    constructor(connection) {
         this.connection = mysql.createConnection(connection);
     }
 
@@ -32,16 +32,3 @@ class Database {
 //const hi = new Database()
 
 //hi.create_db('whass');
-
-connect_db(database_name) {
-
-    var con = mysql.createConnection({
-        host: "plant-db.cxiwggxylha8.us-east-1.rds.amazonaws.com",
-        port: 3306,
-        user: "ioteam",
-        password: "raspberrypi",
-        database: database_name
-    });
-};
-
-connect_db(None);
