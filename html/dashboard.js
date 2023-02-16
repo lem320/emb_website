@@ -25,7 +25,6 @@ document.querySelector("#addDiv").addEventListener("submit", (e) => {
         devicePass: sub[3].value
     }
 
-    console.log(plant)
 
     fetch(`/add/plant/${getCookie("username")}`,{
         method: 'PUT',
@@ -41,7 +40,6 @@ document.querySelector("#addDiv").addEventListener("submit", (e) => {
         return res.json()
     })
     .then((json) => {
-        console.log(json)
         if (json.message == "Plant added") {
             addPlantDIV(plant)
             document.querySelector('#addError').innerHTML = ""
@@ -57,17 +55,18 @@ document.querySelector("#addDiv").addEventListener("submit", (e) => {
 })
 
 async function addPlantDIV(plant) {
+    console.log(plant)
     const div = document.createElement('div')
     div.className='plant'
-    div.name = plant.name
+    div.name = plant.plantname
 
     const front = document.createElement('div')
     front.className = 'front'
 
     const frontHTML = `
-    <img src="/images/${plant.type}.png">
+    <img src="/images/${plant.planttype}.png">
 
-    <b>${plant.name} (${plant.type})</b>
+    <b>${plant.plantname} (${plant.planttype})</b>
     <a id="health" class="good">Healthy</a>
     `
     front.innerHTML = frontHTML
@@ -83,9 +82,8 @@ async function addPlantDIV(plant) {
     div.appendChild(buttons)
 
     buttons.querySelector(".details").addEventListener("click", (e) => {
-        console.log(plant)
 
-        fetch(`/get/plant/${getCookie("username")}/${plant.name}`,{
+        fetch(`/get/plant/${getCookie("username")}/${plant.id}`,{
             method: 'GET',
             headers: {
                 token: getCookie("token")
@@ -93,39 +91,36 @@ async function addPlantDIV(plant) {
         })
         .then(res => {return res.json()})
         .then((json) => {
-            // console.log(getSiblings(e.target.parentElement.parentElement))
             const plantDIV = e.target.parentElement.parentElement
             const siblings = getSiblings(plantDIV)
 
             siblings.forEach(sibling => sibling.style.display = "none")
-            plantDIV.style.width = 'calc(100vw - 60px)'
+            plantDIV.style.width = 'calc(100vw - 25px)'
 
-            console.log(json)
 
-            const data = json.data
-            const latest = data[Object.keys(data)[0]]
-            console.log(latest)
+            const latest = json
 
             let path = `M0 100`
             Object.keys(latest.light).forEach((key) => {
-                path += ` L${(key-450)*(250/200)} ${100-(latest.light[key])*1}`
+                let normalised = latest.light[key] / 3000
+                if (normalised > 1) normalised = 1
+                path += ` L${(key-450)*(250/200)} ${100-(normalised*100)*1}`
             })
             path += ` L250 100 Z`
 
             front.className = "back"
-            console.log(latest.watered)
             front.innerHTML = `
-            <b>${plant.name} (${plant.type})</b>
+            <b>${plant.plantname} (${plant.planttype})</b>
             <div class="data">
                 <div class="twoCol">
-                    <b class="entry" id ="temp">Temperature: <span>${latest.temp}℃</span></b>
-                    <b class="entry" id ="humidity">Humidity: <span>${latest.humidity}%</span></b>
+                    <b class="entry" id ="temp">Temperature: <span class="${latest.processed.temperature}">${latest.temperature}℃</span></b>
+                    <b class="entry" id ="humidity">Humidity: <span class="${latest.processed.humidity}">${latest.humidity}%</span></b>
                 </div>
                 <div class="twoCol lightCol">
                     <div class="rows">
-                        <b class="entry" id ="moisture">Moisture: <span>${latest.moisture}</span></b>
-                        <b class="entry" id ="watered">Last watered: <span>${timeAgo(parseInt(json.watered))}</span></b>
-                        <b class="entry" id ="watered">Overall halth: <span>${json.health}</span></b>
+                        <b class="entry" id ="moisture">Moisture: <span class="${latest.processed.moisture}">${latest.moisture}</span></b>
+                        <b class="entry" id ="watered">Last watered: <span>${timeAgo(parseInt(json.last_moistured))}</span></b>
+                        <b class="entry" id ="recommendation"><span>${json.processed.recommendation}<span></b>
                     </div>
                     
 
@@ -146,23 +141,13 @@ async function addPlantDIV(plant) {
                         </svg>
 
 
-                        <b class="" id ="lightstatus">Light levels: <span>${latest.lightstatus}</span></b>
+                        <b id ="lightstatus">Light levels: <span class="${latest.processed.light}">${latest.lightstatus}</span></b>
                     </div>
 
                     
                 </div>
             </div>
             `
-
-            // <svg class="chart">
-            //             <polyline
-            //                 points="
-            //                 0,120
-            //                 20,60
-            //                 40,80
-            //                 60,20,
-            //                 80,200"/>
-            //         </svg>
 
 
             buttons.className="oneCol"
@@ -172,9 +157,7 @@ async function addPlantDIV(plant) {
     })
 
     buttons.querySelector(".delete").addEventListener("click", (e) => {
-        console.log(e.target.innerHTML)
         if (e.target.innerHTML == "Close") {
-            console.log("close")
             front.innerHTML = frontHTML
             buttons.className="twoCol"
             buttons.querySelector('.details').style.display=""
@@ -188,11 +171,10 @@ async function addPlantDIV(plant) {
             plantDIV.style.width = ''
         
         } else {
-            console.log("he")
 
             e.preventDefault()
 
-            fetch(`/get/plant/${getCookie("username")}/${plant.name}`,{
+            fetch(`/get/plant/${getCookie("username")}/${plant.id}`,{
                 method: 'DELETE',
                 headers: {
                     token: getCookie("token")
@@ -200,29 +182,11 @@ async function addPlantDIV(plant) {
             })
             .then(res => {return res.json()})
             .then((json) => {
-                // var body = document.body,
-                //     html = document.documentElement;
-
-                // var height = Math.max( body.scrollHeight, body.offsetHeight, 
-                //                     html.clientHeight, html.scrollHeight, html.offsetHeight );
-
-                // console.log(height)
-                // document.querySelector('body').style['min-height'] = height
-
-                // clearPlants()
-                // add_delay = 0
-                // if (json.message == "Deleted successfully") {
-                //     console.log(json)
-                //     setTimeout(() => {
-                //         addPlantDIVs(json.plants)
-                //     },add_delay)
-                // }
                 if (json.message == "Deleted successfully") {
                     const plants = document.querySelectorAll('.plant')
                     const plant = e.target.parentElement.parentElement
-                    const names = Array.from(plants).map(el => el.name)
-                    const index = names.indexOf(plant.name)
-                    console.log(index)
+                    const names = Array.from(plants).map(el => el.plantname)
+                    const index = names.indexOf(plant.plantname)
                     // plant.remove()
 
                     let counter = index
@@ -248,9 +212,7 @@ async function addPlantDIV(plant) {
 
     const main = document.querySelector('.main')
     const last = main.children[main.children.length-1]
-    console.log(last)
     if (last.children.length == 3) {
-        console.log(3)
         const threeCol = document.createElement('div')
         threeCol.className='threeCol'
         threeCol.appendChild(div)
@@ -301,7 +263,6 @@ function populate() {
 populate()
 
 async function addPlantDIVs(json) {
-    console.log(json)
     addPlantDIV(json[0])
     if (json.length > 1) {
         json = json.slice(1,json.length)

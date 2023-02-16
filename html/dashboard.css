@@ -3,10 +3,10 @@ body {
 }
 
 .title {
-    grid-template-columns: 100px 1fr 130px !important;
+    grid-template-columns: 100px 1fr 140px !important;
 }
 #webBut {
-    width: 130px;
+    width: 140px;
 }
 
 .main {
@@ -122,7 +122,7 @@ body {
 }
 
 .plant img {
-    /* height: 25vh; */
+    max-height: 25vh;
     width: 25vh;
 
     object-fit: cover;
@@ -225,11 +225,17 @@ body {
     font-size: 13px;
 }
 
-.good {
+.exp {
     color: green;
 }
-.med {
+.low {
     color: orange;
+}
+.high {
+    color: orange;
+}
+.perfect {
+    color: blue;
 }
 .bad {
     color: #E3242B;
@@ -305,3 +311,7 @@ path{
 .rows b:nth-child(3) {
     margin-top: 25px !important;
 } */
+
+#recommendation {
+    height: 40px;
+}
