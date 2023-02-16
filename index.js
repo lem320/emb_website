@@ -7,25 +7,24 @@ const{process} = require('./processing.js')
 
 const {
     create_login_db,
-    create_pi_id_db,
-    create_user_db,
+    create_pi_db,
+    create_plant_db,
     create_login_table,
-    pi_id_table,
-    plant_table,
-    create_user,
-    create_pi,
-    set_pi_plant,
-    plant_info,
+    create_pi_table,
+    create_plant_table,
+    add_user,
+    add_pi,
+    set_plant,
+    add_plant_info,
     get_users,
-    get_pi,
-    plant_type,
-    check_pi,
+    get_pis,
     get_plants,
+    plant_type,
+    recent_data,
     delete_db,
     delete_table,
-    delete_items,
-    getResult
-} = require('./Login.js')
+    delete_items
+} = require('./sql.js')
 
 const app = express()
 app.use(express.json());
@@ -65,6 +64,9 @@ app.get('/images/light.png', function (req, res) {
 })
 app.get('/images/moist.png', function (req, res) {
     res.sendFile('images/moist.png', {root: __dirname })
+})
+app.get('/images/logo.jpeg', function (req, res) {
+    res.sendFile('images/logo.jpeg', {root: __dirname })
 })
 
 function verify(token) {
@@ -169,17 +171,19 @@ app.put('/add/plant/*', async function (req,res) {
     //     res.status(200).json({message:"Plant added"})
     // }
 
+    console.log(req.body.plant)
+
     try {
-        const raw_names = await check_pi(username)
+        const raw_names = await get_plants(username)
         let eachel = `Tables_in_${username}`
         const names = raw_names.map(el => el[eachel])
-        const name = req.body.plant.name
+        const name = req.body.plant.plantname
 
         if (names.includes(name)) {
             res.status(400).json({ message: "Name already exists" })
         } else {
-            set_pi_plant(req.body.plant.deviceId, req.body.plant.devicePass, name, req.body.plant.type,username) // 
-            plant_table(username, req.body.plant.deviceId)
+            set_plant(req.body.plant.id, req.body.plant.pass, name, req.body.plant.planttype,username) // 
+            create_plant_table(username, req.body.plant.id)
             res.status(200).json({ message: "Plant added" })
 
         }
@@ -205,11 +209,12 @@ app.get('/get/plants/*',async function (req,res) {
 
     // if (jwt.verify(req.headers.token,secret).data == username) res.status(200).json(plants_data)
 
-    const raw_names = await check_pi(username)
+    const raw_names = await get_plants(username)
+    console.log("123",raw_names)
     const name = `Tables_in_${username}`;
     const ids = raw_names.map(el => el[name])
 
-    const pis = await get_pi()
+    const pis = await get_pis()
     const pi_ids = pis.map(el => el.id)
 
     let arr = []
@@ -225,77 +230,59 @@ app.get('/get/plants/*',async function (req,res) {
 app.get('/get/plant/*/*',async function (req,res) {
     const username = req.url.split("/")[3]
     const plant_id = req.url.split("/")[4]
+    if (jwt.verify(req.headers.token,secret).data == username) {
+        
+        const plant_data_all = await recent_data(username, plant_id)
+        const plant_data = plant_data_all[plant_data_all.length-1]
 
+        if (plant_data !== undefined) {
+            const pi_data = await plant_type(plant_id)
 
-    // // TEMP CODE COMMENT OUT WHEN USING YOURS
-    // const names = data[username].plants.map(el => el.name)
-    // const index = names.indexOf(plant_name)
+            const data = {
+                type: pi_data[0].planttype,
+                temperature: plant_data.temperature,
+                humidity: plant_data.humidity,
+                last_moistured: plant_data.lastmoistured,
+                moisture: plant_data.moisture,
+                light: {
+                    '450': plant_data.light450,
+                    '500': plant_data.light500,
+                    '550': plant_data.light550,
+                    '570': plant_data.light570,
+                    '600': plant_data.light600,
+                    '650': plant_data.light650
+                }
+            }
 
-    // let plant_data = data[username].plants[index]
-    // let latest = plant_data.data[Object.keys(plant_data.data)[0]]
-    // latest.type = plant_data.type
-    // latest.processed = process(latest)
-
-
-    // // END OF TEMP CODE
-
-
-    // // YOUR CODE SETTING THE VALUE OF PLANT_DATA TO JSON FORMATTED LATEST PLANT DATA (FORMAT IN /PUT/PLANT)
-
-    // // const plant_data = 
-    // //
-
-    
-
-    // if (jwt.verify(req.headers.token,secret).data == username) res.status(200).json(latest)
-
-    const plant_data_all = await get_plants(username, plant_id)
-    const plant_data = plant_data_all[plant_data_all.length-1]
-
-    console.log(plant_data)
-    const pi_data = await plant_type(plant_id)
-
-
-    const data = {
-        type: pi_data[0].planttype,
-        temperature: plant_data.temperature,
-        humidity: plant_data.humidity,
-        last_moistured: plant_data.lastmoistured,
-        moisture: plant_data.moisture,
-        light: {
-            '450': plant_data.light450,
-            '500': plant_data.light500,
-            '550': plant_data.light550,
-            '570': plant_data.light570,
-            '600': plant_data.light600,
-            '650': plant_data.light650
+            data.processed = process(data)
+            res.status(200).json(data)
+        } else {
+            res.status(200).json({message: "No Data"})
         }
+    } else {
+        res.status(401).json({message: "Unauthorized"})
     }
-
-    data.processed = process(data)
-
-    // if (plant_data.includes(undefined)) {
-    //     res.status(400).json({ message: "No Data" })
-    // } else {
-        res.status(200).json(data)
-    // }
 })
 
 
 // DELETE PLANT FROM USER'S DB
 app.delete('/get/plant/*/*',async function (req,res) {
+    const username = req.url.split("/")[3]
     if (jwt.verify(req.headers.token,secret).data == username) {
-
-        const username = req.url.split("/")[3]
         const plant_id = req.url.split("/")[4]
 
+        const pis = await get_pis()
+        console.log(pis)
+        const pi_ids = pis.map(el => el.id)
+        const plant_pass = pis[pi_ids.indexOf(plant_id)].pass
+
         await delete_table(username, plant_id);
-        await set_pi_plant(req.body.plant.deviceId, req.body.plant.devicePass, null, null, null) // 
+        await set_plant(plant_id, plant_pass, 'NULL', 'NULL', 'NULL') // 
         // if (jwt.verify(req.headers.token,secret).data == username) res.status(200).json({message: "Deleted successfully",plants: plants_data})
 
         res.status(200).json({message: "Deleted successfully"})
     } else {
-        res.status(401).json({message: "Not Authorizedy"})
+        res.status(401).json({message: "Not Authorized"})
     }
 
 })
@@ -307,7 +294,7 @@ app.put('/put/plant/*',async function (req,res) {
     const device_id = req.url.split("/")[3]
     const device_password = req.headers.authorization
 
-    const pi_data = await get_pi();
+    const pi_data = await get_pis();
     const ids = pi_data.map(el => el.id);
     const passes = pi_data.map(el => el.pass);
 
@@ -315,7 +302,7 @@ app.put('/put/plant/*',async function (req,res) {
     const username = obj.username
 
     if (ids.includes(device_id) && (passes[ids.indexOf(device_id)] == device_password)) {
-        plant_info(username, device_id, req.body); // 
+        add_plant_info(username, device_id, req.body); // 
         res.status(200).json({ message: `Inserted Data into ${username}.${device_id}` })
 
     } else {

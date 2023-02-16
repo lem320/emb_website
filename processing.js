@@ -90,9 +90,10 @@ function process(plant) {
     const lights = Object.keys(plant.light).map(el => parseFloat(plant.light[el]))
     const light_avg = lights.reduce((a,b) => a+b,0)/lights.length
     plant.light_avg = light_avg
+    console.log(plant)
 
     const types = ["temperature","humidity","moisture","light_avg"]
-    const data = types.map((type) => check(plant[type],info[type.indexOf(type)][plant_info[tmp.type][type]]) )
+    const data = types.map((type) => check(plant[type],info[type.indexOf(type)][plant_info[plant.type][type]]) )
     console.log(data)
 
     return {

@@ -315,3 +315,7 @@ path{
 #recommendation {
     height: 40px;
 }
+
+.title {
+    margin-bottom: 5px !important;
+}

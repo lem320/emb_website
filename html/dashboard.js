@@ -19,10 +19,12 @@ document.querySelector("#addDiv").addEventListener("submit", (e) => {
 
     const sub = e.srcElement
     const plant = {
-        name: sub[0].value,
-        type: sub[1].value,
-        deviceId: sub[2].value,
-        devicePass: sub[3].value
+        plantname: sub[0].value,
+        planttype: sub[1].value,
+        id: sub[2].value,
+        pass: sub[3].value
+        // deviceId: sub[2].value,
+        // devicePass: sub[3].value
     }
 
 
@@ -91,68 +93,72 @@ async function addPlantDIV(plant) {
         })
         .then(res => {return res.json()})
         .then((json) => {
-            const plantDIV = e.target.parentElement.parentElement
-            const siblings = getSiblings(plantDIV)
+            if (json.message != undefined) {
+                
+            } else {
+                const plantDIV = e.target.parentElement.parentElement
+                const siblings = getSiblings(plantDIV)
 
-            siblings.forEach(sibling => sibling.style.display = "none")
-            plantDIV.style.width = 'calc(100vw - 25px)'
+                siblings.forEach(sibling => sibling.style.display = "none")
+                plantDIV.style.width = 'calc(100vw - 25px)'
 
 
-            const latest = json
+                const latest = json
 
-            let path = `M0 100`
-            Object.keys(latest.light).forEach((key) => {
-                let normalised = latest.light[key] / 3000
-                if (normalised > 1) normalised = 1
-                path += ` L${(key-450)*(250/200)} ${100-(normalised*100)*1}`
-            })
-            path += ` L250 100 Z`
+                let path = `M0 100`
+                Object.keys(latest.light).forEach((key) => {
+                    let normalised = latest.light[key] / 3000
+                    if (normalised > 1) normalised = 1
+                    path += ` L${(key-450)*(250/200)} ${100-(normalised*100)*1}`
+                })
+                path += ` L250 100 Z`
 
-            front.className = "back"
-            front.innerHTML = `
-            <b>${plant.plantname} (${plant.planttype})</b>
-            <div class="data">
-                <div class="twoCol">
-                    <b class="entry" id ="temp">Temperature: <span class="${latest.processed.temperature}">${latest.temperature}℃</span></b>
-                    <b class="entry" id ="humidity">Humidity: <span class="${latest.processed.humidity}">${latest.humidity}%</span></b>
-                </div>
-                <div class="twoCol lightCol">
-                    <div class="rows">
-                        <b class="entry" id ="moisture">Moisture: <span class="${latest.processed.moisture}">${latest.moisture}</span></b>
-                        <b class="entry" id ="watered">Last watered: <span>${timeAgo(parseInt(json.last_moistured))}</span></b>
-                        <b class="entry" id ="recommendation"><span>${json.processed.recommendation}<span></b>
+                front.className = "back"
+                front.innerHTML = `
+                <b>${plant.plantname} (${plant.planttype})</b>
+                <div class="data">
+                    <div class="twoCol">
+                        <b class="entry" id ="temp">Temperature: <span class="${latest.processed.temperature}">${latest.temperature}℃</span></b>
+                        <b class="entry" id ="humidity">Humidity: <span class="${latest.processed.humidity}">${latest.humidity}%</span></b>
                     </div>
-                    
+                    <div class="twoCol lightCol">
+                        <div class="rows">
+                            <b class="entry" id ="moisture">Moisture: <span class="${latest.processed.moisture}">${latest.moisture*100}%</span></b>
+                            <b class="entry" id ="watered">Last watered: <span>${timeAgo(parseInt(json.last_moistured))}</span></b>
+                            <b class="entry" id ="recommendation"><span>${json.processed.recommendation}<span></b>
+                        </div>
+                        
 
-                    <div class="chartDIV">
+                        <div class="chartDIV">
 
-                        <svg class="chart">
-                            <defs>
-                                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="${(450-450)/2}%"   stop-color="#0046ff"/>
-                                <stop offset="${(500-450)/2}%"   stop-color="#00ff92"/>
-                                <stop offset="${(550-450)/2}%" stop-color="#a3ff00"/>
-                                <stop offset="${(570-450)/2}%" stop-color="#e1ff00"/>
-                                <stop offset="${(600-450)/2}%" stop-color="#ffbe00"/>
-                                <stop offset="${(650-450)/2}%" stop-color="#ff0000"/>
-                                </linearGradient>
-                            </defs>
-                            <path d="${path}" />
-                        </svg>
+                            <svg class="chart">
+                                <defs>
+                                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="${(450-450)/2}%"   stop-color="#0046ff"/>
+                                    <stop offset="${(500-450)/2}%"   stop-color="#00ff92"/>
+                                    <stop offset="${(550-450)/2}%" stop-color="#a3ff00"/>
+                                    <stop offset="${(570-450)/2}%" stop-color="#e1ff00"/>
+                                    <stop offset="${(600-450)/2}%" stop-color="#ffbe00"/>
+                                    <stop offset="${(650-450)/2}%" stop-color="#ff0000"/>
+                                    </linearGradient>
+                                </defs>
+                                <path d="${path}" />
+                            </svg>
 
 
-                        <b id ="lightstatus">Light levels: <span class="${latest.processed.light}">${latest.lightstatus}</span></b>
+                            <b id ="lightstatus">Light levels: <span class="${latest.processed.light}">${latest.lightstatus}</span></b>
+                        </div>
+
+                        
                     </div>
-
-                    
                 </div>
-            </div>
-            `
+                `
 
 
-            buttons.className="oneCol"
-            buttons.querySelector('.details').style.display="none"
-            buttons.querySelector('.delete').innerHTML="Close"
+                buttons.className="oneCol"
+                buttons.querySelector('.details').style.display="none"
+                buttons.querySelector('.delete').innerHTML="Close"
+            }
         })
     })
 
@@ -189,13 +195,14 @@ async function addPlantDIV(plant) {
                     const index = names.indexOf(plant.plantname)
                     // plant.remove()
 
-                    let counter = index
-                    while (counter < plants.length-1) {
-                        const plants2 = document.querySelectorAll('.plant')
-                        swapElements(plants2[counter],plants2[counter+1])
-                        counter++
+                    if (plants.length > 2) {
+                        let counter = index
+                        while (counter < plants.length-1) {
+                            const plants2 = document.querySelectorAll('.plant')
+                            swapElements(plants2[counter],plants2[counter+1])
+                            counter++
+                        }
                     }
-
                     const plants3 = document.querySelectorAll('.plant')
                     plants3[plants3.length-1].remove()
 
