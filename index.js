@@ -263,12 +263,12 @@ app.get('/get/plant/*/*',async function (req,res) {
         last_moistured: plant_data[0].lastmoistured,
         moisture: plant_data[0].moisture,
         light: {
-            '450': plant_data[0].light450,
-            '500': plant_data[0].light500,
-            '550': plant_data[0].light550,
-            '570': plant_data[0].light570,
-            '600': plant_data[0].light600,
-            '650': plant_data[0].light650
+            '450': plant_data.light450,
+            '500': plant_data.light500,
+            '550': plant_data.light550,
+            '570': plant_data.light570,
+            '600': plant_data.light600,
+            '650': plant_data.light650
         }
     }
 
