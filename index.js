@@ -249,7 +249,8 @@ app.get('/get/plant/*/*',async function (req,res) {
 
     // if (jwt.verify(req.headers.token,secret).data == username) res.status(200).json(latest)
 
-    const plant_data = await get_plants(username, plant_id)
+    const plant_data_all = await get_plants(username, plant_id)
+    const plant_data = plant_data_all[plant_data_all.length-1]
 
     console.log(plant_data)
     const pi_data = await plant_type(plant_id)
