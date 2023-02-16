@@ -202,6 +202,7 @@ app.put('/put/plant/*', function (req,res) {
 
 })
 
+console.log(8080)
 
 app.listen(8080)
 
