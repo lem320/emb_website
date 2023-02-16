@@ -274,11 +274,11 @@ app.get('/get/plant/*/*',async function (req,res) {
 
     data.processed = process(data)
 
-    if (plant_data.includes(undefined)) {
-        res.status(400).json({ message: "No Data" })
-    } else {
+    // if (plant_data.includes(undefined)) {
+    //     res.status(400).json({ message: "No Data" })
+    // } else {
         res.status(200).json(data)
-    }
+    // }
 })
 
 
