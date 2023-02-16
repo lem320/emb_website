@@ -203,7 +203,7 @@ async function plant_info(database_name, pi_id, jsondata) {
     //console.log(jsondata);
     //var list = Object.entries(jsondata);
     //var light = Object.entries(list[4][1]);
-    var sql = `INSERT INTO ${pi_id} (temperature, humidity, lastmoistured, moisture, light450, light500, light550, light570, light600, light650, time) VALUES (${jsondata.temperature}}, ${jsondata.humidity}, ${jsondata.last_moistured}, ${jsondata.moisture}, ${jsondata.light['450']}, ${jsondata.light['500']}, ${jsondata.light['550']}, ${jsondata.light['570']}, ${jsondata.light['600']}, ${jsondata.light['650']}, CURRENT_TIMESTAMP())`;
+    var sql = `INSERT INTO ${pi_id} (temperature, humidity, lastmoistured, moisture, light450, light500, light550, light570, light600, light650, time) VALUES (${jsondata.temperature}, ${jsondata.humidity}, ${jsondata.last_moistured}, ${jsondata.moisture}, ${jsondata.light['450']}, ${jsondata.light['500']}, ${jsondata.light['550']}, ${jsondata.light['570']}, ${jsondata.light['600']}, ${jsondata.light['650']}, CURRENT_TIMESTAMP())`;
 
     await insert_table(con, sql)
 };
