@@ -78,13 +78,15 @@ function recommend(data) {
 
     console.log(strings)
 
+    if (strings.length > 0) {
     let last = (strings.length > 1) ? " and " + strings[strings.length-1] : strings[strings.length-1]
     strings.pop()
     console.log(strings)
     let first = strings.join(", ")
 
     
-    if (strings.length > 0) return "Your plant is " + first + last + "."
+    return "Your plant is " + first + last + "."
+    }
     else return "Your plant is doing well."
 }
 
