@@ -69,7 +69,7 @@ async function addPlantDIV(plant) {
     <img src="/images/${plant.planttype}.png">
 
     <b>${plant.plantname} (${plant.planttype})</b>
-    <a id="health" class="good">Healthy</a>
+    <a id="health" class="good"></a>
     `
     front.innerHTML = frontHTML
 

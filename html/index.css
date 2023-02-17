@@ -239,7 +239,7 @@ top: 10px;
 .info {
     display: grid;
     /* grid-template-columns: 40% 60%; */
-    grid-template-rows: 54px auto;
+    grid-template-rows: 54x auto;
     /* background-color: #5ca904; */
     border-radius: 5px;
     margin: auto;
@@ -262,13 +262,14 @@ top: 10px;
     width: 30%;
 } */
 .info>* {
-    margin: 100px;
 }
 
 .info>b {
     color: #0e8337;
     font-size: 45px;
     text-align: center;
+    margin: auto;
+    margin-top: 30px;
 }
 
 
@@ -277,8 +278,9 @@ top: 10px;
     padding: 10px;
     border-radius: 5px;
     font-size: 20px;
-    margin-left: 70px;
-    margin-top: 170px;
+    margin: 20px;
+    margin-top: 100px;
+    margin-bottom: 55px;
 }
 
 .soil {
@@ -323,7 +325,7 @@ top: 10px;
     top: 10;
     left: 0;
     width: 100%;
-    height: 92%;
+    height: 620px;
     background-image: linear-gradient(to bottom, rgba(43, 150, 50, 0.274) 0%, rgb(45, 64, 47) 100%);
     z-index: 1;
 }
@@ -357,13 +359,13 @@ top: 10px;
     /* padding: 50px; */
     grid-template-rows: auto 510px auto;
     /* height: 450px; */
-    background-image: url("/images/bottomimage.avif");
+    background-image: url("/images/bottomimage.png");
     background-size: cover;
-    background-position-y: bottom;
-}
+    background-position-y: top;
+}s
 
-.buy>b {
-
+/* .buy>b { */
+#bb {
     margin: auto;
     margin-top: 50px;
     font-size: 60px;
@@ -432,7 +434,7 @@ top: 10px;
     background-image: url('/images/deadplant.png');
     background-size: 100px;
     opacity: 1;
-    animation: revive 15s linear forwards;
+    animation: revive 10s linear forwards;
     animation-iteration-count: infinite;
 }
 
@@ -444,7 +446,7 @@ top: 10px;
     background-image: url('/images/livingplant.png');
     background-size: 100px;
     opacity: 0;
-    animation: alive 15s linear forwards;
+    animation: alive 10s linear forwards;
     animation-iteration-count: infinite;
 }
 

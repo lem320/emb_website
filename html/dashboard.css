@@ -123,9 +123,9 @@ body {
 
 .plant img {
     max-height: 25vh;
-    width: 25vh;
+    /* width: 25vh; */
 
-    object-fit: cover;
+    /* object-fit: cover; */
     margin: 20px auto;
     max-width: calc(30vw - 20px);
     min-height: 150px;

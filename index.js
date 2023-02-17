@@ -90,8 +90,8 @@ app.get('/images/livingplant.png', function (req, res) {
 app.get('/images/deadplant.png', function (req, res) {
     res.sendFile('images/deadplant.png', { root: __dirname })
 })
-app.get('/images/bottomimage.avif', function (req, res) {
-    res.sendFile('images/bottomimage.avif', { root: __dirname })
+app.get('/images/bottomimage.png', function (req, res) {
+    res.sendFile('images/bottomimage.png', { root: __dirname })
 })
 function verify(token) {
     try {
