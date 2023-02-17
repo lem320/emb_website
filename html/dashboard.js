@@ -94,7 +94,7 @@ async function addPlantDIV(plant) {
         .then(res => {return res.json()})
         .then((json) => {
             if (json.message != undefined) {
-                
+
             } else {
                 const plantDIV = e.target.parentElement.parentElement
                 const siblings = getSiblings(plantDIV)
@@ -112,6 +112,8 @@ async function addPlantDIV(plant) {
                     path += ` L${(key-450)*(250/200)} ${100-(normalised*100)*1}`
                 })
                 path += ` L250 100 Z`
+
+               
 
                 front.className = "back"
                 front.innerHTML = `
@@ -146,7 +148,7 @@ async function addPlantDIV(plant) {
                             </svg>
 
 
-                            <b id ="lightstatus">Light levels: <span class="${latest.processed.light}">${latest.lightstatus}</span></b>
+                            <b id ="lightstatus">Light levels: <span class="${latest.processed.light}">${latest.processed.light[0].toUpperCase()+latest.processed.light.substring(1,latest.processed.light.length)}</span></b>
                         </div>
 
                         

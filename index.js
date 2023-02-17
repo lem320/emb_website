@@ -50,6 +50,15 @@ app.get('/images/Basil.png', function (req, res) {
 app.get('/images/Mint.png', function (req, res) {
     res.sendFile('images/Mint.png', {root: __dirname })
 })
+app.get('/images/Thyme.png', function (req, res) {
+    res.sendFile('images/Thyme.png', {root: __dirname })
+})
+app.get('/images/Tulip.png', function (req, res) {
+    res.sendFile('images/Tulip.png', {root: __dirname })
+})
+app.get('/images/Rose.png', function (req, res) {
+    res.sendFile('images/Rose.png', {root: __dirname })
+})
 app.get('/images/leaf.jpeg', function (req, res) {
     res.sendFile('images/leaf.jpeg', {root: __dirname })
 })

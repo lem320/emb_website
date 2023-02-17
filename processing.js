@@ -55,6 +55,7 @@ const plant_info = {
 }
 
 function check(value,info) {
+    console.log(value,info)
     if (value > info.exp*0.95 && value < info.exp*1.05) return "perfect"
     if (value > info.low && value < info.high) return "exp"
     if (value <= info.low) return "low"
@@ -73,7 +74,7 @@ function recommend(data) {
     if (data[2] == "high") strings.push("too dry")
 
     if (data[3] == "low") strings.push("not getting enough light")
-    if (data[3] == "low") strings.push("getting too much light")
+    if (data[3] == "high") strings.push("getting too much light")
 
     console.log(strings)
 
@@ -83,7 +84,8 @@ function recommend(data) {
     let first = strings.join(", ")
 
     
-    return "Your plant is " + first + last + "."
+    if (strings.length > 0) return "Your plant is " + first + last + "."
+    else return "Your plant is doing well."
 }
 
 function process(plant) {
@@ -93,7 +95,7 @@ function process(plant) {
     console.log(plant)
 
     const types = ["temperature","humidity","moisture","light_avg"]
-    const data = types.map((type) => check(plant[type],info[type.indexOf(type)][plant_info[plant.type][type]]) )
+    const data = types.map((type) => check(plant[type],info[types.indexOf(type)][plant_info[plant.type][type]]) )
     console.log(data)
 
     return {
