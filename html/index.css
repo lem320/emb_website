@@ -26,6 +26,7 @@ body {
     margin: 0px;
     padding: 0px;
     background-color: white;
+    overflow-x: hidden;
 }
 
 .title {
@@ -238,13 +239,14 @@ top: 10px;
 .info {
     display: grid;
     /* grid-template-columns: 40% 60%; */
-    grid-template-rows: 40px auto;
+    grid-template-rows: 54px auto;
     /* background-color: #5ca904; */
     border-radius: 5px;
     margin: auto;
-    margin-bottom: 100px;
+    margin-top: 30px;
     width: 50%;
-    float: left;
+    float: right;
+    background-color: beige;
 }
 
 .info>img {
@@ -260,26 +262,37 @@ top: 10px;
     width: 30%;
 } */
 .info>* {
-    margin: 10px;
+    margin: 100px;
 }
 
 .info>b {
-    color: #009933;
+    color: #0e8337;
+    font-size: 45px;
+    text-align: center;
 }
+
 
 .info>p {
     /* background-color: white; */
     padding: 10px;
     border-radius: 5px;
-    margin: auto;
+    font-size: 20px;
+    margin-left: 70px;
+    margin-top: 170px;
 }
 
 .soil {
-    width: 50px;
-    height: 50px;
-    /* padding: 50px; */
-    grid-template-rows: auto 50px auto;
-    /* height: 450px; */
+    margin: auto;
+    width: 50%;
+    float: right;
+    margin-top: 30px;
+}
+
+.soil>img {
+    /* height: 30vh; */
+    border-radius: 10px;
+    width: 50vw;
+    margin: auto;
 }
 
 .reverse {
@@ -294,28 +307,14 @@ top: 10px;
     /* padding: 50px; */
     grid-template-rows: auto 50px auto;
     /* height: 450px; */
-    background-size: cover;
+    animation: logoalive 5s linear forwards;
 }
 
 .product>img {
     width: 100vw;
     /* border-radius: 20px; */
-    /* margin: auto; */
-}
-
-.product>b {
     margin: auto;
-    margin-top: 50px;
-    font-size: 60px;
-    color: #009933;
 
-}
-
-.product>p {
-    margin: 100px auto 50px;
-    width: 50vw;
-    font-size: 25px;
-    text-align: center;
 }
 
 .product::before {
@@ -324,27 +323,81 @@ top: 10px;
     top: 10;
     left: 0;
     width: 100%;
-    height: 105%;
+    height: 92%;
     background-image: linear-gradient(to bottom, rgba(43, 150, 50, 0.274) 0%, rgb(45, 64, 47) 100%);
     z-index: 1;
+}
+
+.vines {
+    display: grid;
+    /* padding: 50px; */
+    grid-template-rows: auto 510px auto;
+    /* height: 450px; */
+    background-image: url("/images/vines.png");
+    background-position: center;
+}
+
+.vines>b {
+    margin: auto;
+    margin-top: 50px;
+    font-size: 60px;
+    color: #009933;
+
+}
+
+.vines>p {
+    margin: 100px auto 50px;
+    width: 50vw;
+    font-size: 25px;
+    text-align: center;
+}
+
+.buy {
+    display: grid;
+    /* padding: 50px; */
+    grid-template-rows: auto 510px auto;
+    /* height: 450px; */
+    background-image: url("/images/bottomimage.avif");
+    background-size: cover;
+    background-position-y: bottom;
+}
+
+.buy>b {
+
+    margin: auto;
+    margin-top: 50px;
+    font-size: 60px;
+    color: #000000;
+    font-family: serif;
+    font-weight: bold;
+    -webkit-text-stroke: 1px rgba(4, 106, 50, 0.804);
+
+}
+
+.buy>p {
+    margin: 100px auto 50px;
+    width: 50vw;
+    font-size: 25px;
+    text-align: center;
 }
 
 .sensordiv {
     width: 85%;
     margin: auto;
-    margin-bottom: 200px;
+    margin-top: 600px;
+    text-align: center;
 }
 
 .sensordiv>b {
-    color: #009933;
+    color: #18cb54;
+    font-size: 35px;
 }
 
 .sensors {
     height: 300px;
-
     display: grid;
     grid-template-columns: repeat(4, 25%);
-    margin-top: 20px;
+    margin-top: 50px;
 }
 
 .sensor {
@@ -363,4 +416,77 @@ top: 10px;
     /* color: #378805; */
     margin: auto;
     margin-top: 10px;
+}
+
+.plant-container {
+    position: center;
+    width: 50%;
+    height: 360px;
+}
+
+.dead-plant {
+    position: absolute;
+    background-position: center;
+    width: 100%;
+    height: 50%;
+    background-image: url('/images/deadplant.png');
+    background-size: 100px;
+    opacity: 1;
+    animation: revive 15s linear forwards;
+    animation-iteration-count: infinite;
+}
+
+.living-plant {
+    position: absolute;
+    background-position: center;
+    width: 100%;
+    height: 50%;
+    background-image: url('/images/livingplant.png');
+    background-size: 100px;
+    opacity: 0;
+    animation: alive 15s linear forwards;
+    animation-iteration-count: infinite;
+}
+
+@keyframes revive {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes logoalive {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+
+@keyframes alive {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
 }

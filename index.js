@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser")
 const fs = require('fs')
 const { process } = require('./processing.js')
 
+
 const {
     create_login_db,
     create_pi_db,
@@ -68,7 +69,21 @@ app.get('/images/moist.png', function (req, res) {
 app.get('/images/logo.jpeg', function (req, res) {
     res.sendFile('images/logo.jpeg', { root: __dirname })
 })
-
+app.get('/images/houseplants.jpg', function (req, res) {
+    res.sendFile('images/houseplants.jpg', { root: __dirname })
+})
+app.get('/images/vines.png', function (req, res) {
+    res.sendFile('images/vines.png', { root: __dirname })
+})
+app.get('/images/livingplant.png', function (req, res) {
+    res.sendFile('images/livingplant.png', { root: __dirname })
+})
+app.get('/images/deadplant.png', function (req, res) {
+    res.sendFile('images/deadplant.png', { root: __dirname })
+})
+app.get('/images/bottomimage.avif', function (req, res) {
+    res.sendFile('images/bottomimage.avif', { root: __dirname })
+})
 function verify(token) {
     try {
         jwt.verify(token, secret)
