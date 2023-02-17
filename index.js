@@ -93,6 +93,9 @@ app.get('/images/deadplant.png', function (req, res) {
 app.get('/images/bottomimage.png', function (req, res) {
     res.sendFile('images/bottomimage.png', { root: __dirname })
 })
+app.get('/images/marketing.mp4', function (req, res) {
+    res.sendFile('images/marketing.mp4', { root: __dirname })
+})
 function verify(token) {
     try {
         jwt.verify(token, secret)
