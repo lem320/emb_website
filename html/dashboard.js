@@ -125,7 +125,7 @@ async function addPlantDIV(plant) {
                     </div>
                     <div class="twoCol lightCol">
                         <div class="rows">
-                            <b class="entry" id ="moisture">Moisture: <span class="${latest.processed.moisture}">${latest.moisture*100}%</span></b>
+                            <b class="entry" id ="moisture">Moisture: <span class="${latest.processed.moisture}">${(Math.round(latest.moisture * 100) / 100)*100}%</span></b>
                             <b class="entry" id ="watered">Last watered: <span>${timeAgo(parseInt(json.last_moistured))}</span></b>
                             <b class="entry" id ="recommendation"><span>${json.processed.recommendation}<span></b>
                         </div>
